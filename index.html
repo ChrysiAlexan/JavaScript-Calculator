@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="icon" href="../../../../favicon.ico">-->
+    <title>JavaScript Calculator</title>
+
+    
+    <!--Template based on URL below-->
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/starter-template/">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+        .btn{
+            width: 60px;
+        }
+        #clear{
+            width: 120px;
+        }
+    </style>
+</head>
+
+<body>
+
+  <div class="container">  
+
+        <div class="card mt-4 row text-success justify-content-center mx-auto" style="width: 182px;
+            height: 30px;">
+                <h5 id="displayUp"></h5>
+        </div>
+        <div class="card row text-success justify-content-center mx-auto" style="width: 182px;
+            height: 40px;">
+                <h4 id="display">0</h4>
+        </div>
+            
+
+        <div class="row justify-content-center">
+        <button class="btn btn-outline-dark" id="zero" onclick="updateDisplay(0)">0</button>
+        <button class="btn btn-outline-dark" id="one"  onclick="updateDisplay(1)">1</button>
+        <button class="btn btn-outline-dark" id="two"  onclick="updateDisplay(2)">2</button>
+        </div>
+        <div class="row justify-content-center">
+        <button class="btn btn-outline-dark" id="three"onclick="updateDisplay(3)">3</button>
+        <button class="btn btn-outline-dark" id="four" onclick="updateDisplay(4)">4</button>
+        <button class="btn btn-outline-dark" id="five" onclick="updateDisplay(5)">5</button>
+        </div>
+        <div class="row justify-content-center">
+        <button class="btn btn-outline-dark" id="six"  onclick="updateDisplay(6)">6</button>
+        <button class="btn btn-outline-dark" id="seven"onclick="updateDisplay(7)">7</button>
+        <button class="btn btn-outline-dark" id="eight"onclick="updateDisplay(8)">8</button>
+        </div>
+        <div class="row justify-content-center">
+        <button class="btn btn-outline-dark" id="nine"    onclick="updateDisplay(9)">9</button>
+        <button class="btn btn-outline-dark" id="decimal" onclick="updateDisplay('.')">.</button>
+        <button class="btn btn-outline-primary" id="add"  onclick="updateDisplay('+')">+</button>
+        </div>
+        <div class="row justify-content-center">
+        <button class="btn btn-outline-primary" id="subtract" onclick="updateDisplay('-')">-</button>
+        <button class="btn btn-outline-primary" id="multiply" onclick="updateDisplay('*')">*</button>
+        <button class="btn btn-outline-primary" id="divide"   onclick="updateDisplay('/')">/</button>
+        </div>
+        <div class="row justify-content-center">
+        <button class="btn btn-danger" id="clear" onclick="updateDisplay('clear')">CLEAR</button>
+        <button class="btn btn-success" id="equals" onclick="equal()">=</button>
+    </div>
+  </div>
+
+
+<!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+    <!-- My Scripts -->
+    <script type="text/javascript">
+        
+        var canInsertDot = true;
+        var canInsertOp = false;
+
+
+        function updateDisplay(n)
+        {
+        var display = document.getElementById("display");
+        console.log(isNaN(n), n);
+        console.log(canInsertDot, canInsertOp);
+
+            if(n==='clear')
+            {
+                console.log("f1");
+                display.innerHTML=0;
+                displayUp.innerHTML=" ";
+                canInsertDot = true;
+            } 
+            //The first should be a number that replaces the default 0
+            else if(display.innerHTML == 0 && isNaN(n)==false)
+            {   
+                
+                if(n==0){
+                    display.innerHTML;
+                }if(display.innerHTML=='0.'){
+                    display.innerHTML+=n
+                }else{
+                    display.innerHTML=n;
+                }
+            }
+            //The dot should only be added once in a number
+           else if(n=='.' && canInsertDot == true && display.innerHTML.charAt(display.innerHTML.length - 1)!='.')
+           {
+                console.log("f3");
+                canInsertDot = false;
+                display.innerHTML+=n;
+            }
+            //the Substract Opperator can be combined with other opperants
+            else if(n=="-" && display.innerHTML.charAt(display.innerHTML.length - 1)!='-')
+            {
+                console.log(display.innerHTML.charAt(display.innerHTML.length - 1));
+                canInsertDot = true;
+                 display.innerHTML+=n;
+            }
+            //The other Ops replace each other
+            else if(isNaN(n) && n!='.' && n!='-' && display.innerHTML.charAt(display.innerHTML.length - 1)!='-')
+            {
+                console.log("f5");
+                canInsertDot = true;
+
+                if(display.innerHTML.charAt(display.innerHTML.length - 1)!='-' && isNaN(display.innerHTML.charAt(display.innerHTML.length - 1)) && display.innerHTML.charAt(display.innerHTML.length - 1)!='.')
+                {
+                    display.innerHTML=display.innerHTML.replace(/.$/, n);
+                }else
+                {
+                    display.innerHTML+=n;
+                }
+
+            }
+            //The numbers
+            else if(isNaN(n)==false)
+            {   
+                console.log("f6");
+                display.innerHTML+=n;
+            }
+        }
+        function equal(){
+            
+            displayUp.innerHTML=display.innerHTML+' = ';
+            var eq = eval(display.innerHTML);
+            console.log(eq);
+            display.innerHTML =  eq;
+        }
+    </script>
+</body>
+    </html>
